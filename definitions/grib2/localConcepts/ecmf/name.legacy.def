@@ -118,3 +118,75 @@
  parameterCategory = 131 ;
  parameterNumber = 88 ;
 }
+#Total column cloud liquid water
+'Total column cloud liquid water' = {
+ discipline = 192 ;
+ parameterCategory = 128 ;
+ parameterNumber = 78 ;
+}
+#Total column cloud ice water
+'Total column cloud ice water' = {
+ discipline = 192 ;
+ parameterCategory = 128 ;
+ parameterNumber = 79 ;
+}
+#Top net solar radiation
+'Top net solar radiation' = {
+ discipline = 192 ;
+ parameterCategory = 128 ;
+ parameterNumber = 178 ;
+}
+#Temperature of snow layer
+'Temperature of snow layer' = {
+ discipline = 192 ;
+ parameterCategory = 128 ;
+ parameterNumber = 238 ;
+}
+#Sea-ice cover
+'Sea-ice cover' = {
+ discipline = 192 ;
+ parameterCategory = 128 ;
+ parameterNumber = 31 ;
+}
+#Snow density
+'Snow density' = {
+ discipline = 192 ;
+ parameterCategory = 128 ;
+ parameterNumber = 33 ;
+}
+#Sea surface temperature
+'Sea surface temperature' = {
+ discipline = 192 ;
+ parameterCategory = 128 ;
+ parameterNumber = 34 ;
+}
+#Surface solar radiation downwards
+'Surface solar radiation downwards' = {
+ discipline = 192 ;
+ parameterCategory = 128 ;
+ parameterNumber = 169 ;
+}
+#Surface thermal radiation downwards
+'Surface thermal radiation downwards' = {
+ discipline = 192 ;
+ parameterCategory = 128 ;
+ parameterNumber = 175 ;
+}
+#Eastward turbulent surface stress
+'Eastward turbulent surface stress' = {
+ discipline = 192 ;
+ parameterCategory = 128 ;
+ parameterNumber = 180 ;
+}
+#Northward turbulent surface stress
+'Northward turbulent surface stress' = {
+ discipline = 192 ;
+ parameterCategory = 128 ;
+ parameterNumber = 181 ;
+}
+#Surface runoff
+'Surface runoff' = {
+ discipline = 192 ;
+ parameterCategory = 174 ;
+ parameterNumber = 8 ;
+}

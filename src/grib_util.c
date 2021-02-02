@@ -974,9 +974,13 @@ grib_handle* grib_util_set_spec2(grib_handle* h,
                     if (strcmp(input_packing_type, "grid_ccsds") && !strcmp(input_packing_type, "grid_simple"))
                         SET_STRING_VALUE("packingType", "grid_ccsds");
                     break;
+                case GRIB_UTIL_PACKING_TYPE_IEEE:
+                    if (strcmp(input_packing_type, "grid_ieee") && !strcmp(input_packing_type, "grid_simple"))
+                        SET_STRING_VALUE("packingType", "grid_ieee");
+                    break;
                 case GRIB_UTIL_PACKING_TYPE_GRID_SECOND_ORDER:
                     /* we delay the set of grid_second_order because we don't want
-                   to do it on a field with bitsPerValue=0 */
+                       to do it on a field with bitsPerValue=0 */
                     setSecondOrder = 1;
                     break;
                 default:
@@ -1255,18 +1259,17 @@ grib_handle* grib_util_set_spec2(grib_handle* h,
             COPY_SPEC_LONG(Ni); /* same as Nx */
             COPY_SPEC_LONG(Nj); /* same as Ny */
             /* TODO
-         * pass in extra keys e.g. Dx, Dy, standardParallel and centralLongitude
-         */
+             * pass in extra keys e.g. Dx, Dy, standardParallel and centralLongitude
+             */
 
             /*
-        COPY_SPEC_LONG(DxInMetres);
-        COPY_SPEC_LONG(DyInMetres);
-
-        COPY_SPEC_LONG(xDirectionGridLengthInMillimetres);
-        COPY_SPEC_LONG(yDirectionGridLengthInMillimetres);
-        COPY_SPEC_LONG(standardParallelInMicrodegrees);
-        COPY_SPEC_LONG(centralLongitudeInMicrodegrees);
-        */
+            COPY_SPEC_LONG(DxInMetres);
+            COPY_SPEC_LONG(DyInMetres);
+            COPY_SPEC_LONG(xDirectionGridLengthInMillimetres);
+            COPY_SPEC_LONG(yDirectionGridLengthInMillimetres);
+            COPY_SPEC_LONG(standardParallelInMicrodegrees);
+            COPY_SPEC_LONG(centralLongitudeInMicrodegrees);
+            */
 
             break;
         case GRIB_UTIL_GRID_SPEC_UNSTRUCTURED:
@@ -1274,8 +1277,8 @@ grib_handle* grib_util_set_spec2(grib_handle* h,
             if (spec->missingValue)
                 COPY_SPEC_DOUBLE(missingValue);
             /*
-         * TODO: Other keys
-        */
+            * TODO: Other keys
+            */
             break;
         case GRIB_UTIL_GRID_SPEC_LAMBERT_CONFORMAL:
             COPY_SPEC_LONG(bitmapPresent);
@@ -1287,14 +1290,14 @@ grib_handle* grib_util_set_spec2(grib_handle* h,
             COPY_SPEC_LONG(Nj); /* same as Ny */
 
             /*
-         * Note: DxInMetres and DyInMetres
-         * should be 'double' and not integer. WMO GRIB2 uses millimetres!
-         * TODO:
-         * Add other keys like Latin1, LoV etc
+             * Note: DxInMetres and DyInMetres
+             * should be 'double' and not integer. WMO GRIB2 uses millimetres!
+             * TODO:
+             * Add other keys like Latin1, LoV etc
 
-         *err = GRIB_NOT_IMPLEMENTED;
-         goto cleanup;
-        */
+             *err = GRIB_NOT_IMPLEMENTED;
+             goto cleanup;
+            */
             break;
 
         case GRIB_UTIL_GRID_SPEC_REDUCED_GG:
@@ -1388,23 +1391,27 @@ grib_handle* grib_util_set_spec2(grib_handle* h,
                 break;
             case GRIB_UTIL_PACKING_TYPE_JPEG:
                 /* Have to delay JPEG packing:
-             * Reason 1: It is not available in GRIB1 and so we have to wait until we change edition
-             * Reason 2: It has to be done AFTER we set the data values
-             */
+                 * Reason 1: It is not available in GRIB1 and so we have to wait until we change edition
+                 * Reason 2: It has to be done AFTER we set the data values
+                */
                 if (strcmp(input_packing_type, "grid_jpeg") && !strcmp(input_packing_type, "grid_simple"))
                     setJpegPacking = 1;
                 break;
             case GRIB_UTIL_PACKING_TYPE_CCSDS:
                 /* Have to delay CCSDS packing:
-             * Reason 1: It is not available in GRIB1 and so we have to wait until we change edition
-             * Reason 2: It has to be done AFTER we set the data values
-             */
+                 * Reason 1: It is not available in GRIB1 and so we have to wait until we change edition
+                 * Reason 2: It has to be done AFTER we set the data values
+                */
                 if (strcmp(input_packing_type, "grid_ccsds") && !strcmp(input_packing_type, "grid_simple"))
                     setCcsdsPacking = 1;
                 break;
+            case GRIB_UTIL_PACKING_TYPE_IEEE:
+                if (strcmp(input_packing_type, "grid_ieee") && !strcmp(input_packing_type, "grid_simple"))
+                    SET_STRING_VALUE("packingType", "grid_ieee");
+                break;
             case GRIB_UTIL_PACKING_TYPE_GRID_SECOND_ORDER:
                 /* we delay the set of grid_second_order because we don't want
-               to do it on a field with bitsPerValue=0 */
+                   to do it on a field with bitsPerValue=0 */
                 setSecondOrder = 1;
                 break;
             default:
@@ -1588,14 +1595,14 @@ grib_handle* grib_util_set_spec2(grib_handle* h,
 
     /* grib_write_message(outh,"h.grib","w"); */
     /* if the field is empty GRIBEX is packing as simple*/
-    /*	if (!strcmp(input_packing_type,"grid_simple_matrix")) {
-		long numberOfValues;
-		grib_get_long(outh,"numberOfValues",&numberOfValues);
-		if (numberOfValues==0)  {
-			slen=11;
-			grib_set_string(outh,"packingType","grid_simple",&slen);
-		}
-	}   */
+    /*    if (!strcmp(input_packing_type,"grid_simple_matrix")) {
+        long numberOfValues;
+        grib_get_long(outh,"numberOfValues",&numberOfValues);
+        if (numberOfValues==0)  {
+            slen=11;
+            grib_set_string(outh,"packingType","grid_simple",&slen);
+        }
+    }   */
 
     if (grib1_high_resolution_fix) {
         /* GRIB-863: must set increments to MISSING */
@@ -1917,7 +1924,7 @@ int parse_keyval_string(const char* grib_tool,
                         grib_values values[], int* count)
 {
     char* p = NULL;
-    int i = 0;
+    int i   = 0;
     if (arg == NULL) {
         *count = 0;
         return GRIB_SUCCESS;
@@ -1989,58 +1996,61 @@ int parse_keyval_string(const char* grib_tool,
 }
 
 /* Return 1 if the productDefinitionTemplateNumber (GRIB2) is related to EPS */
-int grib2_is_PDTN_EPS(long productDefinitionTemplateNumber)
+int grib2_is_PDTN_EPS(long pdtn)
 {
     return (
-        productDefinitionTemplateNumber == 1 || productDefinitionTemplateNumber == 11 ||
-        productDefinitionTemplateNumber == 33 || productDefinitionTemplateNumber == 34 || /*simulated (synthetic) satellite data*/
-        productDefinitionTemplateNumber == 41 || productDefinitionTemplateNumber == 43 || /*atmospheric chemical constituents*/
-        productDefinitionTemplateNumber == 45 || productDefinitionTemplateNumber == 47    /*aerosols*/
+        pdtn == 1 || pdtn == 11 ||
+        pdtn == 33 || pdtn == 34 || /*simulated (synthetic) satellite data*/
+        pdtn == 41 || pdtn == 43 || /*atmospheric chemical constituents*/
+        pdtn == 45 || pdtn == 47 || pdtn == 85  /*aerosols*/
     );
 }
 
 /* Return 1 if the productDefinitionTemplateNumber (GRIB2) is for atmospheric chemical constituents */
-int grib2_is_PDTN_Chemical(long productDefinitionTemplateNumber)
+int grib2_is_PDTN_Chemical(long pdtn)
 {
     return (
-        productDefinitionTemplateNumber == 40 ||
-        productDefinitionTemplateNumber == 41 ||
-        productDefinitionTemplateNumber == 42 ||
-        productDefinitionTemplateNumber == 43);
+        pdtn == 40 ||
+        pdtn == 41 ||
+        pdtn == 42 ||
+        pdtn == 43);
 }
 
 /* Return 1 if the productDefinitionTemplateNumber (GRIB2) is for
  * atmospheric chemical constituents based on a distribution function */
-int grib2_is_PDTN_ChemicalDistFunc(long productDefinitionTemplateNumber)
+int grib2_is_PDTN_ChemicalDistFunc(long pdtn)
 {
     return (
-        productDefinitionTemplateNumber == 57 ||
-        productDefinitionTemplateNumber == 58 ||
-        productDefinitionTemplateNumber == 67 ||
-        productDefinitionTemplateNumber == 68);
+        pdtn == 57 ||
+        pdtn == 58 ||
+        pdtn == 67 ||
+        pdtn == 68);
 }
 
 /* Return 1 if the productDefinitionTemplateNumber (GRIB2) is for aerosols */
-int grib2_is_PDTN_Aerosol(long productDefinitionTemplateNumber)
+int grib2_is_PDTN_Aerosol(long pdtn)
 {
+    /* Notes: PDT 44 is deprecated and replaced by 48 */
+    /*        PDT 47 is deprecated and replaced by 85 */
     return (
-        productDefinitionTemplateNumber == 44 || /* Note: PDT 44 is deprecated. Use 48 instead */
-        productDefinitionTemplateNumber == 48 ||
-        productDefinitionTemplateNumber == 49 ||
-        productDefinitionTemplateNumber == 45 ||
-        productDefinitionTemplateNumber == 46 ||
-        productDefinitionTemplateNumber == 47);
+        pdtn == 44 || 
+        pdtn == 48 ||
+        pdtn == 49 ||
+        pdtn == 45 ||
+        pdtn == 46 ||
+        pdtn == 47 ||
+        pdtn == 85);
 }
 
 /* Return 1 if the productDefinitionTemplateNumber (GRIB2) is for optical properties of aerosol */
-int grib2_is_PDTN_AerosolOptical(long productDefinitionTemplateNumber)
+int grib2_is_PDTN_AerosolOptical(long pdtn)
 {
     /* Note: PDT 48 can be used for both plain aerosols as well as optical properties of aerosol.
      * For the former user must set the optical wavelength range to missing.
      */
     return (
-        productDefinitionTemplateNumber == 48 ||
-        productDefinitionTemplateNumber == 49);
+        pdtn == 48 ||
+        pdtn == 49);
 }
 
 /* Given some information about the type of grib2 parameter, return the productDefinitionTemplateNumber to use.
@@ -2108,7 +2118,7 @@ int grib2_select_PDTN(int is_eps, int is_instant,
             if (is_instant)
                 return 45;
             else
-                return 47;
+                return 85; /* PDT 47 is deprecated*/
         }
         else {
             if (is_instant)
@@ -2131,36 +2141,6 @@ int grib2_select_PDTN(int is_eps, int is_instant,
         else
             return 8;
     }
-}
-
-int is_grib_index_file(const char* filename)
-{
-    FILE* fh;
-    char buf[8] = {0,};
-    const char* str = "GRBIDX";
-    int ret         = 0;
-    size_t size     = 0;
-
-    fh = fopen(filename, "r");
-    if (!fh)
-        return 0;
-
-    size = fread(buf, 1, 1, fh);
-    if (size != 1) {
-        fclose(fh);
-        return 0;
-    }
-    size = fread(buf, 6, 1, fh);
-    if (size != 1) {
-        fclose(fh);
-        return 0;
-    }
-
-    ret = !strcmp(buf, str);
-
-    fclose(fh);
-
-    return ret;
 }
 
 size_t sum_of_pl_array(const long* pl, size_t plsize)
@@ -2191,7 +2171,7 @@ int grib_util_grib_data_quality_check(grib_handle* h, double min_val, double max
     int is_error           = 1;
     char description[1024] = {0,};
     char step[32] = "unknown";
-    size_t len = 32;
+    size_t len    = 32;
     /*
      * If grib_data_quality_checks == 1, limits failure results in an error
      * If grib_data_quality_checks == 2, limits failure results in a warning
@@ -2213,8 +2193,10 @@ int grib_util_grib_data_quality_check(grib_handle* h, double min_val, double max
 
     if (ctx->debug) {
         if (get_concept_condition_string(h, "param_value_max", NULL, description) == GRIB_SUCCESS) {
-            printf("ECCODES DEBUG grib_data_quality_check: Checking condition '%s' (min=%g, max=%g)\n",
-                   description, min_field_value_allowed, max_field_value_allowed);
+            printf("ECCODES DEBUG grib_data_quality_check: Checking condition '%s' (allowed=%g, %g) (actual=%g, %g)\n",
+                   description, min_field_value_allowed, max_field_value_allowed,
+                   min_val, max_val
+                  );
         }
     }
 
